@@ -1,0 +1,11 @@
+title = input("Book title: ")
+author = input("Author: ")
+qty = int(input("Quantity: "))
+
+print("\n" + "="*30)
+print("LIBRARY ENTRY RECORD")
+print("="*30)
+print(f"Title : {title}")
+print(f"Author: {author}")
+print(f"Copies: {qty}")
+print("="*30)
