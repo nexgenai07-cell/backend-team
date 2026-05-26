@@ -1,3 +1,0 @@
-Ali, ali@gmail.com, 20
-Sara, sara@gmail.com, 22
-Ahmed, ahmed@gmail.com, 19
