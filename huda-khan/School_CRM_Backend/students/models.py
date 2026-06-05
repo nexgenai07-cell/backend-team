@@ -11,5 +11,11 @@ class Student(models.Model):
         related_name='students'
     )
 
+    image = models.ImageField(
+        upload_to='students/',
+        blank=True,
+        null=True
+    )
+
     def __str__(self):
         return f"{self.name} ({self.roll_number})"

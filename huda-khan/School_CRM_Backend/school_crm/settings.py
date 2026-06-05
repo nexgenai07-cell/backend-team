@@ -1,14 +1,22 @@
 from datetime import timedelta
 from pathlib import Path
+import os
 import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-tk01n03+-pudia)$w$z!rs$v-#^9$-r6$6r23s0&afa4@-1)w2'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-tk01n03+-pudia)$w$z!rs$v-#^9$-r6$6r23s0&afa4@-1)w2"
+)
 
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    ".vercel.app",
+    "localhost",
+    "127.0.0.1",
+]
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -33,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -46,7 +55,7 @@ ROOT_URLCONF = 'school_crm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],  # fixes warning
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,7 +71,10 @@ WSGI_APPLICATION = 'school_crm.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.parse(
-        'postgresql://neondb_owner:npg_l1ptmCUr5kQF@ep-billowing-frog-aqpjyrdy-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require',
+        os.environ.get(
+            'DATABASE_URL',
+            'postgresql://neondb_owner:npg_l1ptmCUr5kQF@ep-billowing-frog-aqpjyrdy-pooler.c-8.us-east-1.aws.neon.tech/neondb?sslmode=require'
+        ),
         conn_max_age=600
     )
 }
@@ -80,8 +92,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"  # fixes warning
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -92,3 +104,5 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
 }
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
